@@ -13,7 +13,7 @@ const Header = () => {
           </a>
         </Logo>
 
-        <span>Task Manager App</span>
+        <span>Task Manager APP</span>
 
         <Logo>
           <a href="/">
@@ -34,26 +34,34 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 1px 20px;
 
   span {
     display: flex;
     align-items: center;
     text-align: center;
+    font-size: 25px;
+    color: #28c7cc;
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
   }
 `;
 
 const Logo = styled.div`
-  box-shadow: 0 2px 7px #dc6666eb;
-  border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 3px;
-  border-radius: 10px;
+  border-radius: 5px;
   img {
     height: 3rem;
-    border-radius: 0.5rem;
+
+    border-radius: 0.3rem;
     transition: all 0.3s;
     &:hover {
       transform: scale(1.07);
+    }
+
+    @media (max-width: 768px) {
+      height: 2rem;
     }
   }
 `;
