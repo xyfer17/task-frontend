@@ -27,6 +27,7 @@ const Header = () => {
 
 const Container = styled.div`
   width: 100%;
+  z-index: 30;
   background-color: white;
   position: fixed;
 `;
