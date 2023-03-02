@@ -7,6 +7,7 @@ import axios from "axios";
 
 const Home = () => {
   const [rows, setRows] = useState([]);
+  const [namev, setNamev] = useState("");
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
@@ -21,6 +22,20 @@ const Home = () => {
     }
   };
 
+  const postData = (e) => {
+    axios.post("http://localhost:5000/api/v1/tasks", { name: namev });
+  };
+
+  const DeleteData = async (id) => {
+    const response = await axios.delete(
+      `http://localhost:5000/api/v1/tasks/${id}`
+    );
+    const success = response.status === 200;
+    if (success) {
+      window.location.reload(200);
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -28,8 +43,13 @@ const Home = () => {
         <Content>
           <Section>
             <span>Add the Tasks</span>
-            <Form>
-              <Input type="text" placeholder="Add the Task Here" />
+            <Form onSubmit={postData}>
+              <Input
+                type="text"
+                placeholder="Add the Task Here"
+                value={namev}
+                onChange={(e) => setNamev(e.target.value)}
+              />
               <Button>Add</Button>
             </Form>
           </Section>
@@ -42,7 +62,11 @@ const Home = () => {
                   <Edit>
                     <img src={editIcon} alt="" />
 
-                    <img src={deleteIcon} alt="" />
+                    <img
+                      src={deleteIcon}
+                      alt=""
+                      onClick={() => DeleteData(row._id)}
+                    />
                   </Edit>
                 </Item>
               );
