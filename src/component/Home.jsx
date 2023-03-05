@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import styled from "styled-components";
-import editIcon from "../assets/edit-pen-icon.svg";
+import approveIcon from "../assets/approve-icon.svg";
+import rejectIcon from "../assets/reject-icon.svg";
 import deleteIcon from "../assets/delete-icon.svg";
 import axios from "axios";
 
 const Home = () => {
   const [rows, setRows] = useState([]);
   const [namev, setNamev] = useState("");
+
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
@@ -36,6 +38,16 @@ const Home = () => {
     }
   };
 
+  const UpdateData = async (id, done) => {
+    const res = await axios.patch(`http://localhost:5000/api/v1/tasks/${id}`, {
+      completed: done,
+    });
+    const success = res.status === 200;
+    if (success) {
+      window.location.reload(10);
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -58,9 +70,26 @@ const Home = () => {
             {rows.map((row, i) => {
               return (
                 <Item key={i}>
-                  <span>{row.name}</span>
+                  <span>{i + 1}.</span>
+                  {!row.completed ? (
+                    <span>{row.name}</span>
+                  ) : (
+                    <strike>{row.name}</strike>
+                  )}
                   <Edit>
-                    <img src={editIcon} alt="" />
+                    {!row.completed ? (
+                      <img
+                        src={approveIcon}
+                        alt=""
+                        onClick={() => UpdateData(row._id, true)}
+                      />
+                    ) : (
+                      <img
+                        src={rejectIcon}
+                        alt=""
+                        onClick={() => UpdateData(row._id, false)}
+                      />
+                    )}
 
                     <img
                       src={deleteIcon}
